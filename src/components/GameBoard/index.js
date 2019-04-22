@@ -103,6 +103,7 @@ export default class GameBoard extends Component {
 
     // Update the GameBoard active cell.
     gameBoard.setActiveCell(currentCell);
+    this.props.updateActiveCell(currentCell);
     gameBoard.activeCell.toggleActive();
     
     // Put something into the cell.
@@ -130,7 +131,8 @@ export default class GameBoard extends Component {
   render() {
     return (
       <div>
-        <canvas id="map" height={this.props.canvasHeight} width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
+        <canvas id="map" height={this.props.canvasHeight} 
+            width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
       </div>
     )
   }

@@ -4,7 +4,7 @@ import './Panel.css';
 export default class Panel extends Component {
   render() {
     return (
-      <div className='panel'>
+      <div className='panel' style={{'width': this.props.width}}>
         {this.props.children}
       </div>
     );
