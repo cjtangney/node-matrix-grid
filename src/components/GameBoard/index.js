@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { GameBoard as Board } from './GameBoard';
+import Player from '../Player';
 
 export default class GameBoard extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class GameBoard extends Component {
 
     // click handler
     this.handleClick = this.handleClick.bind(this);
+    this.addPlayer = this.addPlayer.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +67,7 @@ export default class GameBoard extends Component {
      */
     if(prevCell !== undefined) {
       prevCell.toggleActive();
+      prevCell.popContents();
       mapContext.clearRect(
         (prevCell.x * CELL_SIZE), 
         (prevCell.y * CELL_SIZE), 
@@ -107,7 +110,7 @@ export default class GameBoard extends Component {
     gameBoard.activeCell.toggleActive();
     
     // Put something into the cell.
-    gameBoard.activeCell.pushContents('A player is here!');
+    // gameBoard.activeCell.pushContents('A player is here!');
 
     /**
      * Fill the neighbors because why not.
@@ -125,14 +128,27 @@ export default class GameBoard extends Component {
     });
 
     // debugging
+    console.log(gameBoard);
+  }
+
+  addPlayer() {
+    const gameBoard = this.state.data;
+    gameBoard.getData({x: 0, y: 0}).pushContents(new Player({
+      color: 'red',
+    }));
+
+    // debugging
     // console.log(gameBoard);
   }
 
   render() {
     return (
       <div>
-        <canvas id="map" height={this.props.canvasHeight} 
+        <canvas id='map' height={this.props.canvasHeight} 
             width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
+        <div style={{ 'display': 'flex', 'justifyContent': 'center' }}>
+          <button className='btn' onClick={this.addPlayer}> Add player </button>
+        </div>
       </div>
     )
   }

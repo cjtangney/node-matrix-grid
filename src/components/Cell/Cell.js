@@ -50,7 +50,7 @@ export default class Cell {
   };
   
   /**
-   * Pushes content into the GameBoardCell.
+   * Pushes content into the Cell.
    * @param {} content 
    */
   pushContents(content) {
@@ -59,7 +59,7 @@ export default class Cell {
 
   /**
    * Returns the last element from the
-   * GameBoardCell contents. This method
+   * Cell contents. This method
    * will mutate the contents.
    * @return {}
    */
@@ -69,7 +69,7 @@ export default class Cell {
 
   /**
    * Returns the first element from the
-   * GameBoardCell contents. This method
+   * Cell contents. This method
    * will mutate the contents.
    * @return {}
    */
@@ -78,7 +78,7 @@ export default class Cell {
   }
 
   /**
-   * Returns all of the GameBoardCell's
+   * Returns all of the Cell's
    * contents. This method does not mutate
    * the contents.
    */

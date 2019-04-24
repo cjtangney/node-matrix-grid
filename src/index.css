@@ -16,3 +16,17 @@ body, html {
   width: 100%;
   height: 100%;
 }
+
+.btn {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: solid 2px white;
+  color: #575757;
+  display: flex;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background: white;
+  color: #575757;
+}
