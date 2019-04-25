@@ -61,6 +61,6 @@ export default class NodeMatrix {
    */
   getData(point) {
     const {x, y} = point;
-    return this.data[x][y];
+    return this.data[y][x];
   }
 };

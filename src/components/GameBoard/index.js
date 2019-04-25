@@ -14,7 +14,7 @@ export default class GameBoard extends Component {
       CELL_SIZE: (props.canvasHeight / props.boardY),
       canvasWidth: props.canvasWidth,
       canvasHeight: props.canvasHeight,
-      data: new Board(props.boardX, props.boardY),
+      data: new Board(props.boardY, props.boardX),
       canvasContext: undefined,
     };
 
@@ -132,13 +132,49 @@ export default class GameBoard extends Component {
   }
 
   addPlayer() {
+    const targetCell = { x: 2, y: 1 };
     const gameBoard = this.state.data;
-    gameBoard.getData({x: 0, y: 0}).pushContents(new Player({
-      color: 'red',
-    }));
-
+    gameBoard.getData(targetCell).pushContents(new Player({
+        color: 'red',
+        currentLocation: targetCell,
+      })
+    );
+    this.drawPlayer(targetCell);
+    this.highlightPlayerMoves(targetCell);
     // debugging
-    // console.log(gameBoard);
+    console.log(gameBoard);
+  }
+
+  drawPlayer(coordinate) {
+    const CELL_SIZE = this.state.CELL_SIZE;
+    const mapContext = this.state.canvasContext;
+    mapContext.fillStyle = 'green';
+    mapContext.beginPath();
+    mapContext.rect(
+      (coordinate.x * CELL_SIZE) + 1, 
+      (coordinate.y * CELL_SIZE) + 1, 
+      CELL_SIZE - 2, 
+      CELL_SIZE - 2);
+    mapContext.fill();
+    mapContext.closePath();
+  }
+
+  highlightPlayerMoves(coordinate) {
+    const gameBoard = this.state.data;
+    const CELL_SIZE = this.state.CELL_SIZE;
+    const mapContext = this.state.canvasContext;
+    mapContext.fillStyle = 'rgba(0,125,255,0.25)';
+    gameBoard.getData(coordinate).data[0].availableMoves
+      .forEach(move => {
+        mapContext.beginPath();
+        mapContext.rect(
+          (move.x * CELL_SIZE) + 1, 
+          (move.y * CELL_SIZE) + 1, 
+          CELL_SIZE - 2, 
+          CELL_SIZE - 2);
+        mapContext.fill();
+        mapContext.closePath();
+      });
   }
 
   render() {

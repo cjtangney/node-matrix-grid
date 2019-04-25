@@ -24,10 +24,10 @@ export class GameBoard extends NodeMatrix{
   async addCells() {
     const gameBoardHeight = this.getHeight();
     const gameBoardWidth = this.getWidth();
-    this.data.forEach((row, x) => {
-      for(let y = 0; y < row.length; y += 1) {
-        row[y] = new GameBoardCell(x, y);
-        row[y].setNeighborPoints([
+    this.data.forEach((row, y) => {
+      for(let x = 0; x < row.length; x += 1) {
+        row[x] = new GameBoardCell(x, y);
+        row[x].setNeighborPoints([
           {x: x-1, y: y},
           {x: x, y: y-1},
           {x: x+1, y: y},
@@ -45,10 +45,10 @@ export class GameBoard extends NodeMatrix{
     this.data.forEach((row, y) => {
       for(let x = 0; x < row.length; x+= 1) {
         let neighbors = [];
-        row[x].neighbors.forEach(neighbor => {
+        row[y].neighbors.forEach(neighbor => {
           neighbors.push(this.getData(neighbor));
         });
-        row[x].setNeighbors(neighbors);
+        row[y].setNeighbors(neighbors);
       };
     });
   };
@@ -60,7 +60,7 @@ export class GameBoard extends NodeMatrix{
  	 */
   setActiveCell(point) {
     const {x, y} = point;
-    this.activeCell = this.data[x][y];
+    this.activeCell = this.data[y][x];
   };
 
   /**

@@ -24,9 +24,9 @@ export default class Cell {
    * @param {number} width,
    */
   setNeighborPoints(
-  neighbors, 
-   height, 
-   width) {
+    neighbors, 
+    height, 
+    width) {
     this.neighbors = neighbors.filter(neighbor => (
         (neighbor.x >= 0 && neighbor.y >= 0) &&
         (neighbor.x < width && neighbor.y < height)
