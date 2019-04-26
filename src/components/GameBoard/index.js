@@ -19,8 +19,7 @@ export default class GameBoard extends Component {
     };
 
     // click handler
-    this.handleClick = this.handleClick.bind(this);
-    this.addPlayer = this.addPlayer.bind(this);
+    this.handleClick = this.handleClick.bind(this);    
   }
 
   componentDidMount() {
@@ -53,7 +52,6 @@ export default class GameBoard extends Component {
   handleClick(event) {
     const gameBoard = this.state.data;
     const CELL_SIZE = this.state.CELL_SIZE;
-    const mapContext = this.state.canvasContext;
     const point = {
       x: Math.trunc(event.nativeEvent.offsetX / CELL_SIZE),
       y: Math.trunc(event.nativeEvent.offsetY / CELL_SIZE),
@@ -68,81 +66,49 @@ export default class GameBoard extends Component {
     if(prevCell !== undefined) {
       prevCell.toggleActive();
       prevCell.popContents();
-      mapContext.clearRect(
-        (prevCell.x * CELL_SIZE), 
-        (prevCell.y * CELL_SIZE), 
-        CELL_SIZE, 
-        CELL_SIZE);
-      mapContext.fillStyle = 'red';    
-      mapContext.beginPath();
-      mapContext.strokeRect(
-        (prevCell.x * CELL_SIZE), 
-        (prevCell.y * CELL_SIZE), 
-        CELL_SIZE, 
-        CELL_SIZE);
-      mapContext.closePath();
+      this.clearPoint(prevCell);
 
       prevCell.neighbors.forEach(neighbor => {
-        mapContext.clearRect(
-          (neighbor.x * CELL_SIZE) + 1, 
-          (neighbor.y * CELL_SIZE) + 1, 
-          CELL_SIZE - 2, 
-          CELL_SIZE - 2);
+        this.clearPoint({
+          x: neighbor.x,
+          y: neighbor.y,
+        });
       });
     };
 
     /**
      * Fill the active cell.
      */
-    mapContext.fillStyle = 'green';
-    mapContext.beginPath();
-    mapContext.rect(
-      (currentCell.x * CELL_SIZE) + 1, 
-      (currentCell.y * CELL_SIZE) + 1, 
-      CELL_SIZE - 2, 
-      CELL_SIZE - 2);
-    mapContext.fill();
-    mapContext.closePath();
+    this.drawPlayer({
+      x: currentCell.x,
+      y: currentCell.y,
+    });
 
     // Update the GameBoard active cell.
     gameBoard.setActiveCell(currentCell);
     this.props.updateActiveCell(currentCell);
     gameBoard.activeCell.toggleActive();
-    
-    // Put something into the cell.
-    // gameBoard.activeCell.pushContents('A player is here!');
-
-    /**
-     * Fill the neighbors because why not.
-     */
-    mapContext.fillStyle = 'rgba(0,125,255,0.25)';
-    gameBoard.activeCell.neighbors.forEach(neighbor => {
-      mapContext.beginPath();
-      mapContext.rect(
-        (neighbor.x * CELL_SIZE) + 1, 
-        (neighbor.y * CELL_SIZE) + 1, 
-        CELL_SIZE - 2, 
-        CELL_SIZE - 2);
-      mapContext.fill();
-      mapContext.closePath();
-    });
 
     // debugging
     console.log(gameBoard);
   }
 
-  addPlayer() {
-    const targetCell = { x: 2, y: 1 };
-    const gameBoard = this.state.data;
-    gameBoard.getData(targetCell).pushContents(new Player({
-        color: 'red',
-        currentLocation: targetCell,
-      })
-    );
-    this.drawPlayer(targetCell);
-    this.highlightPlayerMoves(targetCell);
-    // debugging
-    console.log(gameBoard);
+  clearPoint(coordinate) {
+    const CELL_SIZE = this.state.CELL_SIZE;
+    const mapContext = this.state.canvasContext;
+    mapContext.clearRect(
+      (coordinate.x * CELL_SIZE), 
+      (coordinate.y * CELL_SIZE), 
+      CELL_SIZE, 
+      CELL_SIZE);
+    mapContext.fillStyle = 'red';    
+    mapContext.beginPath();
+    mapContext.strokeRect(
+      (coordinate.x * CELL_SIZE), 
+      (coordinate.y * CELL_SIZE), 
+      CELL_SIZE, 
+      CELL_SIZE);
+    mapContext.closePath();
   }
 
   drawPlayer(coordinate) {
@@ -182,9 +148,6 @@ export default class GameBoard extends Component {
       <div>
         <canvas id='map' height={this.props.canvasHeight} 
             width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
-        <div style={{ 'display': 'flex', 'justifyContent': 'center' }}>
-          <button className='btn' onClick={this.addPlayer}> Add player </button>
-        </div>
       </div>
     )
   }
