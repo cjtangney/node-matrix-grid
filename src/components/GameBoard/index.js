@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GameBoard as Board } from './GameBoard';
 import Player from '../Player';
+import AddPlayerModal from '../Modal/AddPlayerModal';
 
 export default class GameBoard extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class GameBoard extends Component {
     };
 
     // click handler
-    this.handleClick = this.handleClick.bind(this);    
+    this.handleClick = this.handleClick.bind(this);
+    this.showAddPlayerModal = this.showAddPlayerModal.bind(this);  
   }
 
   componentDidMount() {
@@ -35,7 +37,7 @@ export default class GameBoard extends Component {
     })
   
     // Initial draw
-    mapContext.strokeStyle = 'white';
+    mapContext.strokeStyle = '#575757';
     for(let w = (CELL_SIZE / 2); w < gameBoardWidth; w += CELL_SIZE) {
       for(let h = (CELL_SIZE / 2); h < gameBoardHeight; h += CELL_SIZE) {
         mapContext.beginPath();
@@ -143,11 +145,21 @@ export default class GameBoard extends Component {
       });
   }
 
+  showAddPlayerModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.visibility = 'visible';
+    modal.style.display = 'block';
+  }
+
   render() {
     return (
       <div>
         <canvas id='map' height={this.props.canvasHeight} 
             width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
+        <div style={{ 'display': 'flex', 'justifyContent': 'center' }}>
+          <button className='nes-btn is-primary' onClick={ () => { this.showAddPlayerModal('home-modal') } }>Show Modal</button>
+        </div>
+        <AddPlayerModal id='home-modal' />
       </div>
     )
   }

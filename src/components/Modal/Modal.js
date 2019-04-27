@@ -1,29 +1,27 @@
-import React from 'react'
+import { Component } from 'react'
 
 import './style.css';
 
-export default function Modal(props) {
-  const setId = function() {
+export default class Modal extends Component {
+  getId() {
     let id;
-    props.id === undefined ? id = ''  : id = props.id;
+    this.props.id === undefined ? id = ''  : id = this.props.id;
     return id;
   }
 
-  const hideModal = function(event) {
+  hideModalOnBackdropClick(event) {
     const modal = event.target;
     modal.style.visibility = 'hidden';
     modal.style.display = 'none';
   }
 
-  const stopEventBubble = function(event) {
-    event.stopPropagation();
+  hideModalById(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.visibility = 'hidden';
+    modal.style.display = 'none';
   }
 
-  return (
-    <div id={ setId() } className='modal-background' onClick={ hideModal }>
-      <div className='modal' onClick={ stopEventBubble }>
-        { props.children }
-      </div>
-    </div>
-  )
+  stopEventBubble(event) {
+    event.stopPropagation();
+  }
 }
