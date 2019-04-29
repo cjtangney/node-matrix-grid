@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { GameBoard as Board } from './GameBoard';
-import Player from '../Player';
 import AddPlayerModal from '../Modal/AddPlayerModal';
+import Player from '../Player';
 
 export default class GameBoard extends Component {
   constructor(props) {
@@ -13,15 +13,18 @@ export default class GameBoard extends Component {
       BOARD_X: props.boardX,
       BOARD_Y: props.boardY,
       CELL_SIZE: (props.canvasHeight / props.boardY),
+      ADD_PLAYER_MODAL: 'home-modal',
       canvasWidth: props.canvasWidth,
       canvasHeight: props.canvasHeight,
       data: new Board(props.boardY, props.boardX),
       canvasContext: undefined,
+      players: [],
     };
 
     // click handler
     this.handleClick = this.handleClick.bind(this);
-    this.showAddPlayerModal = this.showAddPlayerModal.bind(this);  
+    this.showAddPlayerModal = this.showAddPlayerModal.bind(this);
+    this.addNewPlayer = this.addNewPlayer.bind(this);
   }
 
   componentDidMount() {
@@ -151,15 +154,44 @@ export default class GameBoard extends Component {
     modal.style.display = 'block';
   }
 
+  addNewPlayer() {
+    const gameBoard = this.state.data;
+    const currentPlayers = this.state.players;
+    const modal = document.getElementById(this.state.ADD_PLAYER_MODAL);
+    const xInput = document.getElementById('player-start-x');
+    const yInput = document.getElementById('player-start-y');
+    const targetCell = {
+      x: Number(xInput.value),
+      y: Number(yInput.value),
+    };
+    xInput.value = '';
+    yInput.value = '';
+    modal.style.visibility = 'hidden';
+    modal.style.display = 'none';
+    const newPlayer = new Player({
+      currentLocation: targetCell,
+    });
+    gameBoard.getData(targetCell).pushContents(newPlayer);
+    currentPlayers.push(newPlayer)
+    this.setState({
+      gameBoard: this.gameBoard,
+      players: currentPlayers,
+    })
+    this.drawPlayer(targetCell);
+    
+    // debugging
+    console.log(gameBoard);
+  }
+
   render() {
     return (
       <div>
         <canvas id='map' height={this.props.canvasHeight} 
             width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
         <div style={{ 'display': 'flex', 'justifyContent': 'center' }}>
-          <button className='nes-btn is-primary' onClick={ () => { this.showAddPlayerModal('home-modal') } }>Show Modal</button>
+          <button className='nes-btn is-primary' onClick={ () => { this.showAddPlayerModal(this.state.ADD_PLAYER_MODAL) } }>Show Modal</button>
         </div>
-        <AddPlayerModal id='home-modal' />
+        <AddPlayerModal id={ this.state.ADD_PLAYER_MODAL } addNewPlayer={ this.addNewPlayer }/>
       </div>
     )
   }

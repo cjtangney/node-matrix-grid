@@ -2,7 +2,6 @@ export default class Player {
   constructor(playerData) {
     // document the playerData object
     this.currentLocation = playerData.currentLocation;
-    this.color = playerData.color;
     this.moveSpeed = 3;
     this.availableMoves = this.calculateMoves();
   };
