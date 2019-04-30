@@ -1,7 +1,22 @@
+const COLORS = {
+  1: 'red',
+  2: 'orange',
+  3: 'yellow',
+  4: 'green',
+  5: 'purple',
+  6: 'fuchsia',
+  7: 'teal',
+  8: 'aqua',
+  9: 'blue',
+  10: 'lime',
+};
+Object.freeze(COLORS);
+
 export default class Player {
   constructor(playerData) {
     // document the playerData object
     this.currentLocation = playerData.currentLocation;
+    this.color = COLORS[Math.ceil(Math.random() * 10)];
     this.moveSpeed = 3;
     this.availableMoves = this.calculateMoves();
   };
@@ -35,10 +50,10 @@ export default class Player {
       backwardPoint = {
         x: startingPoint.x - i,
         y: startingPoint.y,
-      }
+      };
       calculatedMoves.push(forwardPoint);
       calculatedMoves.push(backwardPoint);
-    }
+    };
     return(calculatedMoves.filter(move => (
         (move.x >= 0 && move.y >= 0) && 
         (move.x < 10 && move.y < 10)
