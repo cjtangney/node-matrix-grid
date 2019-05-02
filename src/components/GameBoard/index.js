@@ -3,6 +3,8 @@ import { GameBoard as Board } from './GameBoard';
 import AddPlayerModal from '../Modal/AddPlayerModal';
 import Player from '../Player';
 
+import './GameBoard.css';
+
 export default class GameBoard extends Component {
   constructor(props) {
     super(props);
@@ -176,7 +178,7 @@ export default class GameBoard extends Component {
         <canvas id='map' height={this.props.canvasHeight} 
             width={this.props.canvasWidth} onClick={this.handleClick}></canvas>
         <div style={{ 'display': 'flex', 'justifyContent': 'center' }}>
-          <button className='nes-btn is-primary' onClick={ () => { this.showAddPlayerModal(this.state.ADD_PLAYER_MODAL) } }>Show Modal</button>
+          <button className='nes-btn is-primary' onClick={ () => { this.showAddPlayerModal(this.state.ADD_PLAYER_MODAL) } }>Add Player</button>
         </div>
         <AddPlayerModal id={ this.state.ADD_PLAYER_MODAL } addNewPlayer={ this.addNewPlayer }/>
       </div>
