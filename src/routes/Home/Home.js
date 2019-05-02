@@ -25,7 +25,7 @@ export default class Home extends Component {
     });
   }
 
-  addPlayerToGame(newPlayer) {
+  async addPlayerToGame(newPlayer) {
     const tempPlayers = this.state.players;
     if(this.state.players.length === 0) { 
       this.initializePlayers(); 
@@ -50,11 +50,13 @@ export default class Home extends Component {
     if(currentTurn === this.state.players.length){
       this.setState({
         playerTurn: 1,
-      })
+        activePlayer: this.state.players[0],
+      });
       return;
     }
     this.setState({
       playerTurn: (currentTurn + 1),
+      activePlayer: this.state.players[currentTurn],
     });
     return;
   }
@@ -64,14 +66,7 @@ export default class Home extends Component {
       <div>
         <Panel>
           <span className='nes-text'>
-            ACTIVE CELL: { this.state.activeCell !== undefined ? 
-                `x: ${ this.state.activeCell.x }; 
-                    y: ${ this.state.activeCell.y }` : 
-                '' }
-          </span>
-          <br /><br /><br />
-          <span className='nes-text'>
-              PLAYER TURN: { this.state.playerTurn }
+            PLAYER TURN: { this.state.playerTurn }
           </span>
           <br /><br /><br />
           <button id='next-turn-button' className='nes-btn is-primary' onClick={ this.nextTurn }>Next Turn</button>
@@ -83,7 +78,7 @@ export default class Home extends Component {
             canvasHeight = { 850 }
             addPlayerToGame = { this.addPlayerToGame } 
             playerTurn = { this.state.playerTurn } 
-            getCurrentPlayer = {this.getCurrentPlayer } />
+            currentPlayer = {this.getCurrentPlayer() } />
       </div>      
     );
   }

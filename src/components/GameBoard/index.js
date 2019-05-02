@@ -19,12 +19,15 @@ export default class GameBoard extends Component {
       data: new Board(props.boardY, props.boardX),
       canvasContext: undefined,
       players: [],
+      playerTurn: undefined,
+      currentPlayer: undefined,
     };
 
     // handlers
-    // this.handleClick = this.handleClick.bind(this);
     this.showAddPlayerModal = this.showAddPlayerModal.bind(this);
     this.addNewPlayer = this.addNewPlayer.bind(this);
+    this.clearPrevActivePlayer = this.clearPrevActivePlayer.bind(this);
+    this.highlightPlayerMoves = this.highlightPlayerMoves.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +40,7 @@ export default class GameBoard extends Component {
 
     this.setState({
       canvasContext: mapContext,
-    })
+    });
   
     // Initial draw
     mapContext.strokeStyle = '#575757';
@@ -54,49 +57,20 @@ export default class GameBoard extends Component {
     };
   }
 
-  // handleClick(event) {
-  //   const gameBoard = this.state.data;
-  //   const CELL_SIZE = this.state.CELL_SIZE;
-  //   const point = {
-  //     x: Math.trunc(event.nativeEvent.offsetX / CELL_SIZE),
-  //     y: Math.trunc(event.nativeEvent.offsetY / CELL_SIZE),
-  //   };
-  //   const currentCell = gameBoard.getData(point);
-  //   const prevCell = gameBoard.getActiveCell();
-
-  //   /**
-  //    * If the GameBoard had a previous active cell, it must
-  //    * be cleared and the outline must be redrawn.
-  //    */
-  //   if(prevCell !== undefined) {
-  //     prevCell.toggleActive();
-  //     prevCell.popContents();
-  //     this.clearPoint(prevCell);
-
-  //     prevCell.neighbors.forEach(neighbor => {
-  //       this.clearPoint({
-  //         x: neighbor.x,
-  //         y: neighbor.y,
-  //       });
-  //     });
-  //   };
-
-  //   /**
-  //    * Fill the active cell.
-  //    */
-  //   this.drawPlayer({
-  //     x: currentCell.x,
-  //     y: currentCell.y,
-  //   });
-
-  //   // Update the GameBoard active cell.
-  //   gameBoard.setActiveCell(currentCell);
-  //   this.props.updateActiveCell(currentCell);
-  //   gameBoard.activeCell.toggleActive();
-
-  //   // debugging
-  //   console.log(gameBoard);
-  // }
+  componentDidUpdate(prevProps) {
+    const prevPlayer = prevProps.currentPlayer;
+    const currentPlayer = this.props.currentPlayer;
+    if(prevPlayer !== currentPlayer) {
+      if(prevPlayer !== undefined) {
+        this.clearPrevActivePlayer(prevPlayer);
+      }
+      this.highlightPlayerMoves();
+      this.setState({
+        currentPlayer: this.props.currentPlayer,
+        playerTurn: this.props.playerTurn,
+      });
+    }
+  }
 
   clearPoint(coordinate) {
     const CELL_SIZE = this.state.CELL_SIZE;
@@ -130,22 +104,27 @@ export default class GameBoard extends Component {
     mapContext.closePath();
   }
 
-  highlightPlayerMoves(coordinate) {
-    const gameBoard = this.state.data;
+  clearPrevActivePlayer(prevPlayer) {
+    prevPlayer.availableMoves.forEach(coordinate => {
+      this.clearPoint(coordinate);
+    });
+  }
+
+  highlightPlayerMoves() {
+    const currentPlayer = this.props.currentPlayer;
     const CELL_SIZE = this.state.CELL_SIZE;
     const mapContext = this.state.canvasContext;
     mapContext.fillStyle = 'rgba(0,125,255,0.25)';
-    gameBoard.getData(coordinate).data[0].availableMoves
-      .forEach(move => {
-        mapContext.beginPath();
-        mapContext.rect(
-          (move.x * CELL_SIZE) + 1, 
-          (move.y * CELL_SIZE) + 1, 
-          CELL_SIZE - 2, 
-          CELL_SIZE - 2);
-        mapContext.fill();
-        mapContext.closePath();
-      });
+    currentPlayer.availableMoves.forEach(move => {
+      mapContext.beginPath();
+      mapContext.rect(
+        (move.x * CELL_SIZE) + 1, 
+        (move.y * CELL_SIZE) + 1, 
+        CELL_SIZE - 2, 
+        CELL_SIZE - 2);
+      mapContext.fill();
+      mapContext.closePath();
+    });
   }
 
   showAddPlayerModal(modalId) {
