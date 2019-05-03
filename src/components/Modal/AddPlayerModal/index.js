@@ -1,1 +1,1 @@
-export { default } from './AddPlayerModal.js'
+export { default } from './AddPlayerModal';

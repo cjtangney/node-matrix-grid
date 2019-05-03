@@ -1,1 +1,1 @@
-export { default } from './NodeMatrix.js';
+export { default } from './NodeMatrix';

@@ -8,8 +8,8 @@ import Cell from '../../Cell';
  * @prop {bool} active,
  * @prop {Array[GameBoardCell]} neighbors,
  */
-export default class GameBoardCell extends Cell{
+export default class GameBoardCell extends Cell {
   constructor(x, y) {
     super(x, y);
-  };  
-};
+  }
+}

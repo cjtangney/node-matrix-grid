@@ -1,11 +1,12 @@
-import { Component } from 'react'
+/* eslint-disable class-methods-use-this */
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './style.css';
 
 export default class Modal extends Component {
   getId() {
-    let id;
-    this.props.id === undefined ? id = ''  : id = this.props.id;
+    const { id } = this.props;
     return id;
   }
 
@@ -25,3 +26,11 @@ export default class Modal extends Component {
     event.stopPropagation();
   }
 }
+
+Modal.propTypes = {
+  id: PropTypes.string,
+};
+
+Modal.defaultProps = {
+  id: '',
+};

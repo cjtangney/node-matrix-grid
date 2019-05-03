@@ -1,5 +1,5 @@
 /**
- * Creates a NodeMatrix of fixed 
+ * Creates a NodeMatrix of fixed
  * height and width.
  * @param {number} height,
  * @param {number} width,
@@ -7,60 +7,60 @@
  */
 export default class NodeMatrix {
   constructor(height, width) {
-    this._height = height;
-    this._width = width;
+    this.height = height;
+    this.width = width;
     this.data = [];
     this.initialize();
-  };
+  }
 
   /**
-   * Creates the data strcture using a number 
+   * Creates the data strcture using a number
    * of fixed-length arrays
    */
   initialize() {
     this.data = Array.from([].fill.call({
-      length: this._height
+      length: this.height,
     }, 0));
     this.data.forEach((row, i) => {
       this.data[i] = Array.from([].fill.call({
-        length: this._width
+        length: this.width,
       }, 0));
     });
-  };
+  }
 
   /**
    * @return {number} _height
    */
   getHeight() {
-    return this._height;
-  };
+    return this.height;
+  }
 
   /**
    * @return {number} _width
    */
   getWidth() {
-    return this._width;
-  };
+    return this.width;
+  }
 
   /**
-   * Inserts data into the NodeMatrix at the 
+   * Inserts data into the NodeMatrix at the
    * specified coordinate.
-   * @param {x, y} point 
-   * @param {} payload 
+   * @param {x, y} point
+   * @param {} payload
    */
   putData(point, payload) {
-    const {x, y} = point;
+    const { x, y } = point;
     this.data[x][y] = payload;
   }
 
   /**
    * Returns data from the NodeMatrix at the
    * specified coordinate
-   * @param {x, y} point 
+   * @param {x, y} point
    * @return {}
    */
   getData(point) {
-    const {x, y} = point;
+    const { x, y } = point;
     return this.data[y][x];
   }
-};
+}

@@ -13,7 +13,7 @@ export default class Cell {
     this.active = false;
     this.neighbors = undefined;
     this.data = [];
-  };
+  }
 
   /**
    * Finds the coordinates for each of the
@@ -85,4 +85,4 @@ export default class Cell {
   getContents() {
     return (this.data);
   }
-};
+}

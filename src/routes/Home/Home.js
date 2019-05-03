@@ -1,3 +1,5 @@
+/* eslint-disable jsx-quotes */
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import GameBoard from '../../components/GameBoard';
 import Panel from '../../components/Panel';
@@ -10,7 +12,7 @@ export default class Home extends Component {
 
     this.state = {
       players: [],
-      playerTurn: undefined,
+      playerTurn: '',
       activePlayer: undefined,
     };
 
@@ -18,7 +20,12 @@ export default class Home extends Component {
     this.nextTurn = this.nextTurn.bind(this);
     this.getCurrentPlayer = this.getCurrentPlayer.bind(this);
   }
-  
+
+  getCurrentPlayer() {
+    const { activePlayer } = this.state;
+    return (activePlayer);
+  }
+
   initializePlayers() {
     this.setState({
       playerTurn: 1,
@@ -26,14 +33,15 @@ export default class Home extends Component {
   }
 
   async addPlayerToGame(newPlayer) {
-    const tempPlayers = this.state.players;
-    if(this.state.players.length === 0) { 
-      this.initializePlayers(); 
+    const { players } = this.state;
+    const tempPlayers = players;
+    if (tempPlayers.length === 0) {
+      this.initializePlayers();
       this.setState({
         activePlayer: newPlayer,
       });
     }
-    if(!this.state.players.includes(newPlayer)) { 
+    if (!tempPlayers.includes(newPlayer)) {
       tempPlayers.push(newPlayer);
       this.setState({
         players: tempPlayers,
@@ -41,45 +49,52 @@ export default class Home extends Component {
     }
   }
 
-  getCurrentPlayer() {
-    return this.state.activePlayer;
-  }
-
   nextTurn() {
-    const currentTurn = this.state.playerTurn;
-    if(currentTurn === this.state.players.length){
+    const { playerTurn, players } = this.state;
+    const currentTurn = playerTurn;
+    if (currentTurn === players.length) {
       this.setState({
         playerTurn: 1,
-        activePlayer: this.state.players[0],
+        activePlayer: players[0],
       });
       return;
     }
     this.setState({
       playerTurn: (currentTurn + 1),
-      activePlayer: this.state.players[currentTurn],
+      activePlayer: players[currentTurn],
     });
-    return;
   }
 
   render() {
+    const { playerTurn } = this.state;
     return (
       <div>
         <Panel>
           <span className='nes-text'>
-            PLAYER TURN: { this.state.playerTurn }
+            {`PLAYER TURN: ${playerTurn}`}
           </span>
-          <br /><br /><br />
-          <button id='next-turn-button' className='nes-btn is-primary' onClick={ this.nextTurn }>Next Turn</button>
+          <br />
+          <br />
+          <br />
+          <button
+            id='next-turn-button'
+            type='button'
+            className='nes-btn is-primary'
+            onClick={this.nextTurn}
+          >
+            Next Turn
+          </button>
         </Panel>
-        <GameBoard 
-            boardX = { 10 }
-            boardY = { 10 }
-            canvasWidth = { 850 }
-            canvasHeight = { 850 }
-            addPlayerToGame = { this.addPlayerToGame } 
-            playerTurn = { this.state.playerTurn } 
-            currentPlayer = {this.getCurrentPlayer() } />
-      </div>      
+        <GameBoard
+          boardX={10}
+          boardY={10}
+          canvasWidth={850}
+          canvasHeight={850}
+          addPlayerToGame={this.addPlayerToGame}
+          playerTurn={playerTurn}
+          currentPlayer={this.getCurrentPlayer()}
+        />
+      </div>
     );
   }
 }

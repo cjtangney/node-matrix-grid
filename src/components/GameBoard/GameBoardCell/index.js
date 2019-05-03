@@ -1,1 +1,1 @@
-export { default } from './GameBoardCell.js';
+export { default } from './GameBoardCell';

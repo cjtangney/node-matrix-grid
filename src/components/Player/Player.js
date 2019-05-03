@@ -19,17 +19,17 @@ export default class Player {
     this.color = COLORS[Math.ceil(Math.random() * 10)];
     this.moveSpeed = 3;
     this.availableMoves = this.calculateMoves();
-  };
+  }
 
   calculateMoves() {
     const calculatedMoves = [];
     const startingPoint = this.currentLocation;
-    const moveSpeed = this.moveSpeed;
-    let forwardPoint = {},
-        backwardPoint = {};
+    const { moveSpeed } = this;
+    let forwardPoint = {};
+    let backwardPoint = {};
 
     // calculates moves vertically
-    for(let i = 1; i <= moveSpeed; i += 1) {
+    for (let i = 1; i <= moveSpeed; i += 1) {
       forwardPoint = {
         x: startingPoint.x,
         y: startingPoint.y + i,
@@ -37,12 +37,12 @@ export default class Player {
       backwardPoint = {
         x: startingPoint.x,
         y: startingPoint.y - i,
-      }
+      };
       calculatedMoves.push(forwardPoint);
       calculatedMoves.push(backwardPoint);
-    };
+    }
     // calculates moves horizontally
-    for(let i = 1; i <= moveSpeed; i += 1) {
+    for (let i = 1; i <= moveSpeed; i += 1) {
       forwardPoint = {
         x: startingPoint.x + i,
         y: startingPoint.y,
@@ -53,11 +53,10 @@ export default class Player {
       };
       calculatedMoves.push(forwardPoint);
       calculatedMoves.push(backwardPoint);
-    };
-    return(calculatedMoves.filter(move => (
-        (move.x >= 0 && move.y >= 0) && 
-        (move.x < 10 && move.y < 10)
-      )
-    ));
-  };
-};
+    }
+    return (calculatedMoves.filter(move => (
+      (move.x >= 0 && move.y >= 0)
+      && (move.x < 10 && move.y < 10)
+    )));
+  }
+}
