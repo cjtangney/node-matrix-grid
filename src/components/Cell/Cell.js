@@ -18,21 +18,21 @@ export default class Cell {
   /**
    * Finds the coordinates for each of the
    * cell's neighbors within the NodeMatrix's
-   * boundaries. 
+   * boundaries.
    * @param {Array[{number, number}]} neighbors,
    * @param {number} height,
    * @param {number} width,
    */
   setNeighborPoints(
-    neighbors, 
-    height, 
-    width) {
+    neighbors,
+    height,
+    width,
+  ) {
     this.neighbors = neighbors.filter(neighbor => (
-        (neighbor.x >= 0 && neighbor.y >= 0) &&
-        (neighbor.x < width && neighbor.y < height)
-      )
-    );
-  };
+      (neighbor.x >= 0 && neighbor.y >= 0)
+      && (neighbor.x < width && neighbor.y < height)
+    ));
+  }
 
   /**
    * Updates the neighbors array
@@ -40,18 +40,18 @@ export default class Cell {
    */
   setNeighbors(neighbors) {
     this.neighbors = neighbors;
-  };
+  }
 
   /**
    * Toggles the Cell active state
    */
   toggleActive() {
-    this.active = this.active ? false : true;
-  };
-  
+    this.active = !this.active;
+  }
+
   /**
    * Pushes content into the Cell.
-   * @param {} content 
+   * @param {} content
    */
   pushContents(content) {
     this.data.push(content);
@@ -64,7 +64,7 @@ export default class Cell {
    * @return {}
    */
   popContents() {
-    return(this.data.pop());
+    return (this.data.pop());
   }
 
   /**
@@ -74,7 +74,7 @@ export default class Cell {
    * @return {}
    */
   shiftContents() {
-    return(this.data.shift());
+    return (this.data.shift());
   }
 
   /**
@@ -83,6 +83,6 @@ export default class Cell {
    * the contents.
    */
   getContents() {
-    return(this.data);
+    return (this.data);
   }
 };

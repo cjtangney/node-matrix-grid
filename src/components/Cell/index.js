@@ -1,1 +1,1 @@
-export { default } from './Cell.js';
+export { default } from './Cell';
