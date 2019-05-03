@@ -12,7 +12,7 @@ export default class Home extends Component {
 
     this.state = {
       players: [],
-      playerTurn: '',
+      playerTurn: undefined,
       activePlayer: undefined,
     };
 

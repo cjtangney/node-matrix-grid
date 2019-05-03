@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable jsx-quotes */
 /* eslint-disable react/jsx-filename-extension */
@@ -106,7 +107,8 @@ export default class GameBoard extends Component {
   }
 
   clearPoint(coordinate) {
-    const { CELL_SIZE, canvasContext } = this.state;
+    const { CELL_SIZE, canvasContext, data } = this.state;
+    const gameBoard = data;
     canvasContext.clearRect(
       (coordinate.x * CELL_SIZE),
       (coordinate.y * CELL_SIZE),
@@ -122,6 +124,12 @@ export default class GameBoard extends Component {
       CELL_SIZE,
     );
     canvasContext.closePath();
+
+    // redraw a player if they were in a cell
+    if (gameBoard.getData(coordinate).data.length > 0) {
+      const player = gameBoard.getData(coordinate).data[0];
+      this.drawPlayer(player.currentLocation, player);
+    }
   }
 
   drawPlayer(coordinate, player) {
@@ -216,7 +224,7 @@ GameBoard.propTypes = {
   canvasHeight: PropTypes.number.isRequired,
   addPlayerToGame: PropTypes.func,
   playerTurn: PropTypes.number,
-  currentPlayer: PropTypes.func,
+  currentPlayer: PropTypes.object,
 };
 
 GameBoard.defaultProps = {
