@@ -1,3 +1,14 @@
+/**
+ * PLAYER CLASS IS A WORK IN PROGRESS AND IS CURRENTLY
+ * STORING WHAT I CONSIDER TO BE THE BARE MINIMUM. THIS
+ * CLASS WILL CHANGE FREQUENTLY AS THE FUNCTIONALITY OF
+ * THE GAME IMPROVES.
+ *
+ * Yeet. Thanks.
+ */
+
+// temporary enumeration for Player color
+// TODO: make this not shitty.
 const COLORS = {
   1: 'red',
   2: 'orange',
@@ -12,6 +23,13 @@ const COLORS = {
 };
 Object.freeze(COLORS);
 
+/**
+ * Basic Player object only needs the starting coordinate
+ * for right now. All other attributes are either hard-coded
+ * (move speed) or randomly assigned (color).
+ *
+ * @param {x, y} currentLocation,
+ */
 export default class Player {
   constructor(playerData) {
     // document the playerData object
@@ -21,6 +39,13 @@ export default class Player {
     this.availableMoves = this.calculateMoves();
   }
 
+  /**
+   * Uses moves speed to caluclate available moves in 4
+   * cardinal directions. Does not include moves that would
+   * fall outside the bounds of the GameBoard area.
+   *
+   * @return {Array[{object}]}
+   */
   calculateMoves() {
     const calculatedMoves = [];
     const startingPoint = this.currentLocation;

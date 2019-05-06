@@ -1,3 +1,4 @@
+// linter overrides
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-state */
 /* eslint-disable jsx-quotes */
@@ -10,6 +11,20 @@ import Player from '../Player';
 
 import './GameBoard.css';
 
+/**
+ * At the moment, this index file is kind of a 'view layer'
+ * for the GameBoard component in that it handles most of
+ * the GUI updates. Some of these methods could likely be
+ * moved into the GameBoard class.
+ *
+ * @param {number} boardX,
+ * @param {number} boardY,
+ * @param {number} canvasWidth,
+ * @param {number} canvasHeight,
+ * @prop {func} addPlayerToGame,
+ * @prop {number} playerTurn,
+ * @prop {object} currentPlayer,
+ */
 export default class GameBoard extends Component {
   constructor(props) {
     super(props);
@@ -30,14 +45,16 @@ export default class GameBoard extends Component {
       currentPlayer: undefined,
     };
 
-    // handlers
     this.showAddPlayerModal = this.showAddPlayerModal.bind(this);
     this.addNewPlayer = this.addNewPlayer.bind(this);
-    this.clearPrevActivePlayer = this.clearPrevActivePlayer.bind(this);
+    this.clearPrevActivePlayerMoves = this.clearPrevActivePlayerMoves.bind(this);
     this.highlightPlayerMoves = this.highlightPlayerMoves.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
   }
 
+  /**
+   * Draws the GameBoard once the component has mounted
+   */
   componentDidMount() {
     // Board variables
     const { canvasWidth, canvasHeight, CELL_SIZE } = this.state;
@@ -66,12 +83,18 @@ export default class GameBoard extends Component {
     }
   }
 
+  /**
+   * Component lifecyle method that fires when state is altered.
+   * Currently handles re-drawing GameBoard.
+   *
+   * @param {props} prevProps,
+   */
   componentDidUpdate(prevProps) {
     const prevPlayer = prevProps.currentPlayer;
     const { currentPlayer, playerTurn } = this.props;
     if (prevPlayer !== currentPlayer) {
       if (prevPlayer !== undefined) {
-        this.clearPrevActivePlayer(prevPlayer);
+        this.clearPrevActivePlayerMoves(prevPlayer);
       }
       this.highlightPlayerMoves();
       this.onUpdate({
@@ -81,6 +104,12 @@ export default class GameBoard extends Component {
     }
   }
 
+  /**
+   * Updates the state object when the component has
+   * been redrawn.
+   *
+   * @param {object} newState,
+   */
   onUpdate(newState) {
     const { currentPlayer, playerTurn } = newState;
     this.setState({
@@ -89,6 +118,10 @@ export default class GameBoard extends Component {
     });
   }
 
+  /**
+   * Highlights a given Player's available moves based on
+   * the assigned Player move-speed.
+   */
   highlightPlayerMoves() {
     const { currentPlayer } = this.props;
     const { CELL_SIZE, canvasContext } = this.state;
@@ -106,16 +139,22 @@ export default class GameBoard extends Component {
     });
   }
 
+  /**
+   * Clears a point from the GameBoard GUI. Does not
+   * remove the point from the data.
+   *
+   * @param {x, y} coordinate,
+   */
   clearPoint(coordinate) {
     const { CELL_SIZE, canvasContext, data } = this.state;
     const gameBoard = data;
+    // clear the cell contents then re-draw the empty cell
     canvasContext.clearRect(
       (coordinate.x * CELL_SIZE),
       (coordinate.y * CELL_SIZE),
       CELL_SIZE,
       CELL_SIZE,
     );
-    canvasContext.fillStyle = 'red';
     canvasContext.beginPath();
     canvasContext.strokeRect(
       (coordinate.x * CELL_SIZE),
@@ -132,6 +171,13 @@ export default class GameBoard extends Component {
     }
   }
 
+  /**
+   * Draws a player on the GameBoard using the provided
+   * coordinate and randomized Player color.
+   *
+   * @param {x, y} coordinate,
+   * @param {Player} player,
+   */
   drawPlayer(coordinate, player) {
     const { CELL_SIZE, canvasContext } = this.state;
     canvasContext.fillStyle = player.color;
@@ -146,12 +192,21 @@ export default class GameBoard extends Component {
     canvasContext.closePath();
   }
 
-  clearPrevActivePlayer(prevPlayer) {
+  /**
+   * Loops through the previous Player's available moves,
+   * re-drawing all previously highlighted cells
+   *
+   * @param {Player} prevPlayer,
+   */
+  clearPrevActivePlayerMoves(prevPlayer) {
     prevPlayer.availableMoves.forEach((coordinate) => {
       this.clearPoint(coordinate);
     });
   }
 
+  /**
+   * Shows the modal for adding a Player to the game
+   */
   showAddPlayerModal() {
     const { ADD_PLAYER_MODAL } = this.state;
     const modal = document.getElementById(ADD_PLAYER_MODAL);
@@ -159,7 +214,16 @@ export default class GameBoard extends Component {
     modal.style.display = 'block';
   }
 
+  /**
+   * Adds a new Player object to the GameBoard data. Uses
+   * the coordinates provided in the ADD_PLAYER_MODAL in order
+   * to insert data into the GameBoard Node Matrix.
+   *
+   * This method is passed down to the Modal component and is used
+   * as the onclick handler for the confirm button.
+   */
   addNewPlayer() {
+    // necessary data references
     const { data, players, ADD_PLAYER_MODAL } = this.state;
     const gameBoard = data;
     const modal = document.getElementById(ADD_PLAYER_MODAL);
@@ -169,10 +233,17 @@ export default class GameBoard extends Component {
       x: Number(xInput.value),
       y: Number(yInput.value),
     };
+
+    // clear and hide the ADD_PLAYER_MODAL
     xInput.value = '';
     yInput.value = '';
     modal.style.visibility = 'hidden';
     modal.style.display = 'none';
+
+    /**
+     * create a new Player, push it to the correct target cell
+     * in the GameBoard data, then update the component state.
+     */
     const newPlayer = new Player({
       currentLocation: targetCell,
     });
@@ -189,6 +260,8 @@ export default class GameBoard extends Component {
       gameBoard.setActiveCell(gameBoard.getData(targetCell));
       gameBoard.activeCell.toggleActive();
     }
+
+    // draw new players on the GameBoard
     this.drawPlayer(targetCell, newPlayer);
     const { addPlayerToGame } = this.props;
     addPlayerToGame(newPlayer);
@@ -217,6 +290,9 @@ export default class GameBoard extends Component {
   }
 }
 
+/**
+ * Expected propTypes
+ */
 GameBoard.propTypes = {
   boardX: PropTypes.number.isRequired,
   boardY: PropTypes.number.isRequired,
@@ -227,6 +303,9 @@ GameBoard.propTypes = {
   currentPlayer: PropTypes.object,
 };
 
+/**
+ * Default props
+ */
 GameBoard.defaultProps = {
   addPlayerToGame: undefined,
   playerTurn: undefined,

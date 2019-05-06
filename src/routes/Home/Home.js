@@ -1,9 +1,11 @@
+// linter overrides
 /* eslint-disable jsx-quotes */
 /* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import GameBoard from '../../components/GameBoard';
 import Panel from '../../components/Panel';
 
+// base style
 import './style.css';
 
 export default class Home extends Component {

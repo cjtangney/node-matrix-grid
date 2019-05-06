@@ -1,6 +1,7 @@
 /**
  * Represents a particular cell in the
  * NodeMatrix.
+ *
  * @param {number} x,
  * @param {number} y,
  * @prop {bool} active,
@@ -19,6 +20,7 @@ export default class Cell {
    * Finds the coordinates for each of the
    * cell's neighbors within the NodeMatrix's
    * boundaries.
+   *
    * @param {Array[{number, number}]} neighbors,
    * @param {number} height,
    * @param {number} width,
@@ -36,6 +38,7 @@ export default class Cell {
 
   /**
    * Updates the neighbors array
+   *
    * @param {Array[Cell]} neighbors,
    */
   setNeighbors(neighbors) {
@@ -51,7 +54,8 @@ export default class Cell {
 
   /**
    * Pushes content into the Cell.
-   * @param {} content
+   *
+   * @param {*} content
    */
   pushContents(content) {
     this.data.push(content);
@@ -61,7 +65,8 @@ export default class Cell {
    * Returns the last element from the
    * Cell contents. This method
    * will mutate the contents.
-   * @return {}
+   *
+   * @return {*}
    */
   popContents() {
     return (this.data.pop());
@@ -71,7 +76,8 @@ export default class Cell {
    * Returns the first element from the
    * Cell contents. This method
    * will mutate the contents.
-   * @return {}
+   *
+   * @return {*}
    */
   shiftContents() {
     return (this.data.shift());

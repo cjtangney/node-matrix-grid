@@ -3,6 +3,7 @@ import Cell from '../../Cell';
 /**
  * Represents a particular cell on the
  * GameBoard.
+ *
  * @param {number} x,
  * @param {number} y,
  * @prop {bool} active,

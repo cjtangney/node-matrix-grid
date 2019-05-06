@@ -1,8 +1,15 @@
+// linter overrides
 /* eslint-disable jsx-quotes */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import Modal from '../Modal';
 
+/**
+ * AddPlayerModal extends base Modal functionality and
+ * allows users to add a Player object to the GameBoard
+ *
+ * Consider making this a functional component if possible?
+ */
 export default class AddPlayerModal extends Modal {
   constructor(props) {
     super(props);

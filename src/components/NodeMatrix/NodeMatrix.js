@@ -1,6 +1,7 @@
 /**
  * Creates a NodeMatrix of fixed
  * height and width.
+ *
  * @param {number} height,
  * @param {number} width,
  * @prop {Array[Array[Cell]]} rows,
@@ -29,14 +30,14 @@ export default class NodeMatrix {
   }
 
   /**
-   * @return {number} _height
+   * @return {number} height
    */
   getHeight() {
     return this.height;
   }
 
   /**
-   * @return {number} _width
+   * @return {number} width
    */
   getWidth() {
     return this.width;
@@ -45,8 +46,9 @@ export default class NodeMatrix {
   /**
    * Inserts data into the NodeMatrix at the
    * specified coordinate.
+   *
    * @param {x, y} point
-   * @param {} payload
+   * @param {*} payload
    */
   putData(point, payload) {
     const { x, y } = point;
@@ -56,8 +58,9 @@ export default class NodeMatrix {
   /**
    * Returns data from the NodeMatrix at the
    * specified coordinate
+   *
    * @param {x, y} point
-   * @return {}
+   * @return {*}
    */
   getData(point) {
     const { x, y } = point;

@@ -1,3 +1,4 @@
+// linter overrides
 /* eslint-disable no-param-reassign */
 import NodeMatrix from '../NodeMatrix';
 import GameBoardCell from './GameBoardCell';
@@ -5,6 +6,7 @@ import GameBoardCell from './GameBoardCell';
 /**
  * Extends NodeMatrix.
  * Add GameBoard properties, like activeCell
+ *
  * @param {number} height,
  * @param {number} width,
  * @prop {Array[Array[GameBoardCell]]} rows,
@@ -14,12 +16,13 @@ export default class GameBoard extends NodeMatrix {
   constructor(height, width) {
     super(height, width);
     this.activeCell = undefined;
-    this.addCells(); // .then(this.updateNeighbors());
+    this.addCells().then(this.updateNeighbors());
   }
 
   /**
    * Fills GameBoard.rows with GameBoardCell
    * objects.
+   *
    * @return {Promise}
    */
   async addCells() {
@@ -57,6 +60,7 @@ export default class GameBoard extends NodeMatrix {
   /**
    * Sets active cell on the GameBoard
    * given a coordinate.
+   *
    * @param {{number, number}} point,
    */
   setActiveCell(point) {
@@ -67,6 +71,7 @@ export default class GameBoard extends NodeMatrix {
   /**
    * Returns the current active cell
    * from the GameBoard.
+   *
    * @return {GameBoardCell}
    */
   getActiveCell() {
