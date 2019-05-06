@@ -16,7 +16,7 @@ export default class GameBoard extends NodeMatrix {
   constructor(height, width) {
     super(height, width);
     this.activeCell = undefined;
-    this.addCells().then(this.updateNeighbors());
+    this.addCells(); // .then(this.updateNeighbors());
   }
 
   /**
