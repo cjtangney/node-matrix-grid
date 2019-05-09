@@ -45,9 +45,7 @@ const DEFAULT_PLAYER = {
 Object.freeze(DEFAULT_PLAYER);
 
 /**
- * Basic Player object only needs the starting coordinate
- * for right now. All other attributes are either hard-coded
- * (move speed) or randomly assigned (color).
+ * Basic Player object.
  *
  * @param {x, y} currentLocation,
  */
