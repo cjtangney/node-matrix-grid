@@ -14,8 +14,7 @@ import './GameBoard.css';
 /**
  * At the moment, this index file is kind of a 'view layer'
  * for the GameBoard component in that it handles most of
- * the GUI updates. Some of these methods could likely be
- * moved into the GameBoard class.
+ * the GUI updates. Consider baking this into the home view.
  *
  * @param {number} boardX,
  * @param {number} boardY,
@@ -124,7 +123,7 @@ export default class GameBoard extends Component {
    */
   highlightPlayerMoves() {
     const { currentPlayer } = this.props;
-    const { CELL_SIZE, canvasContext } = this.state;
+    const { CELL_SIZE, canvasContext, data: gameBoard } = this.state;
     canvasContext.fillStyle = 'rgba(0,125,255,0.25)';
     currentPlayer.availableMoves.forEach((move) => {
       canvasContext.beginPath();
@@ -146,8 +145,7 @@ export default class GameBoard extends Component {
    * @param {x, y} coordinate,
    */
   clearPoint(coordinate) {
-    const { CELL_SIZE, canvasContext, data } = this.state;
-    const gameBoard = data;
+    const { CELL_SIZE, canvasContext, data: gameBoard } = this.state;
     // clear the cell contents then re-draw the empty cell
     canvasContext.clearRect(
       (coordinate.x * CELL_SIZE),
@@ -229,24 +227,52 @@ export default class GameBoard extends Component {
     const modal = document.getElementById(ADD_PLAYER_MODAL);
     const xInput = document.getElementById('player-start-x');
     const yInput = document.getElementById('player-start-y');
+    const playerName = document.getElementById('player-name');
+    const playerRace = document.getElementById('player-race');
+    const playerClass = document.getElementById('player-class');
+    const playerAge = document.getElementById('player-age');
+    const playerWeight = document.getElementById('player-weight');
+    const playerHeight = document.getElementById('player-height');
+    const playerBackground = document.getElementById('player-background');
+    const playerAlignment = document.getElementById('player-alignment');
+    const playerSpeed = document.getElementById('player-speed');
+
     const targetCell = {
       x: Number(xInput.value),
       y: Number(yInput.value),
     };
 
-    // clear and hide the ADD_PLAYER_MODAL
-    xInput.value = '';
-    yInput.value = '';
-    modal.style.visibility = 'hidden';
-    modal.style.display = 'none';
-
     /**
      * create a new Player, push it to the correct target cell
      * in the GameBoard data, then update the component state.
      */
-    const newPlayer = new Player({
-      currentLocation: targetCell,
-    });
+    let playerData = { currentLocation: targetCell };
+    playerName.value !== '' && (playerData.playerName = playerName.value);
+    playerRace.value !== '' && (playerData.playerRace = playerRace.value);
+    playerClass.value !== '' && (playerData.playerClass = playerClass.value);
+    playerAge.value !== '' && (playerData.playerAge = playerAge.value);
+    playerWeight.value !== '' && (playerData.playerWeight = playerWeight.value);
+    playerHeight.value !== '' && (playerData.playerHeight = playerHeight.value);
+    playerBackground.value !== '' && (playerData.playerBackground = playerBackground.value);
+    playerAlignment.value !== '' && (playerData.playerAlignment = playerAlignment.value);
+    playerSpeed.value !== '' && (playerData.playerSpeed = playerSpeed.value);
+    const newPlayer = new Player(playerData);
+
+    // clear and hide the ADD_PLAYER_MODAL
+    xInput.value = '';
+    yInput.value = '';
+    playerName.value = '';
+    playerRace.value = '';
+    playerClass.value = '';
+    playerAge.value = '';
+    playerWeight.value = '';
+    playerHeight.value = '';
+    playerBackground.value = '';
+    playerAlignment.value = '';
+    playerSpeed.value = '';
+    modal.style.visibility = 'hidden';
+    modal.style.display = 'none';
+
     gameBoard.getData(targetCell).pushContents(newPlayer);
     players.push({
       playerNum: (players.length + 1),

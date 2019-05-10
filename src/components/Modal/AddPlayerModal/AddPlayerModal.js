@@ -32,19 +32,80 @@ export default class AddPlayerModal extends Modal {
         >
           <h2>New Player...</h2>
           <br />
-          <div className='nes-field'>
-            <label htmlFor='player-start-x'>
-              X-coordinate
-              <input type='text' id='player-start-x' className='nes-input' />
-            </label>
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='player-start-y'>
-              Y-coordinate
-              <input type='text' id='player-start-y' name='player-start-y' className='nes-input' />
-            </label>
-          </div>
+          {/** character details */}
+          <section>
+            <div className='nes-field'>
+              <label htmlFor='player-name'>
+                Name
+                <input type='text' id='player-name' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-race'>
+                Race
+                <input type='text' id='player-race' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-class'>
+                Class
+                <input type='text' id='player-class' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-age'>
+                Age
+                <input type='number' id='player-age' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-weight'>
+                Weight
+                <input type='number' id='player-weight' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-height'>
+                Height
+                <input type='number' id='player-height' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-background'>
+                Background
+                <input type='text' id='player-background' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-alignment'>
+                Alignment
+                <input type='text' id='player-alignment' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-speed'>
+                Speed
+                <input type='number' id='player-speed' className='nes-input' />
+              </label>
+            </div>
+          </section>
+          {/** coordinates */}
+          <section>
+            <div className='nes-field'>
+              <label htmlFor='player-start-x'>
+                X-coordinate
+                <input type='text' id='player-start-x' className='nes-input' />
+              </label>
+            </div>
+            <div className='nes-field'>
+              <label htmlFor='player-start-y'>
+                Y-coordinate
+                <input type='text' id='player-start-y' name='player-start-y' className='nes-input' />
+              </label>
+            </div>
+          </section>
           <br />
+          {/** buttons */}
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <button
               type='button'

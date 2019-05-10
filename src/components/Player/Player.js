@@ -171,7 +171,7 @@ export default class Player {
    * @param {number} age
    */
   setPlayerAge(age) {
-    this.playerAge = age;
+    this.playerAge = Number(age);
   }
 
   /**
@@ -185,7 +185,7 @@ export default class Player {
    * @param {number} height
    */
   setPlayerHeight(height) {
-    this.playerHeight = height;
+    this.playerHeight = Number(height);
   }
 
   /**
@@ -199,7 +199,7 @@ export default class Player {
    * @param {number} weight
    */
   setPlayerWeight(weight) {
-    this.playerWeight = weight;
+    this.playerWeight = Number(weight);
   }
 
   /**
@@ -258,7 +258,7 @@ export default class Player {
    * @param {number} speed
    */
   setPlayerSpeed(speed) {
-    this.playerSpeed = speed;
+    this.playerSpeed = Number(speed);
   }
 
   /**

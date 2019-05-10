@@ -3,11 +3,12 @@
   z-index: 50;
   left: 0;
   top: 0;
-  right: 0;
-  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.65);
   display: none;
   visibility: hidden;
+  overflow: auto;
 }
 
 .modal {
@@ -18,8 +19,7 @@
   display: flex;
   min-height: 30rem;
   width: 65%;
-  margin: 0 auto;
-  top: 20%;
+  margin: 1rem auto 1rem auto;
   padding: 1rem;
   justify-content: center;
   align-items: center;
